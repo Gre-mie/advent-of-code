@@ -26,27 +26,18 @@ def get_lists(file_path):
 def find_difference(min_1, min_2):    
     smallest = sorted([min_1, min_2])
     return smallest[1] - smallest[0]
-        
-def add(list):
-        count = 0
-        for n in list:
-            count += n
-        return count
 
-def answer_part1(differences):
-    total = add(differences)
-    return total
-
-def create_differences_list(list_1, list_2, differences):
+def get_total_differences(list_1, list_2):
     l1 = list_1.copy()
     l2 = list_2.copy()
+    total_differences = 0
     for _ in range(len(list_1)):
         smallest_in_list_1 = min(l1)
         smallest_in_list_2 = min(l2)
-        differences.append(find_difference(smallest_in_list_1, smallest_in_list_2))
+        total_differences += find_difference(smallest_in_list_1, smallest_in_list_2)
         l1.remove(smallest_in_list_1)
         l2.remove(smallest_in_list_2)
-    return differences
+    return total_differences
 
 def count_duplicates(num_to_find, list_to_search):
         count = 0
@@ -57,15 +48,12 @@ def count_duplicates(num_to_find, list_to_search):
 
 
 def main():
-    advent_intro(2024, 1)
 
     puzzle_list_1, puzzle_list_2 = get_lists("./puzzle-input.txt")
-    differences = []
 
-    differences = create_differences_list(puzzle_list_1, puzzle_list_2, differences)
+    advent_intro(2024, 1)
+    answer(get_total_differences(puzzle_list_1, puzzle_list_2))
 
-    answer(answer_part1(differences))
-    
     advent_intro(2024, 1, 2)
 
     simularities_score = 0
