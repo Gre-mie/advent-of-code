@@ -38,22 +38,39 @@ def split_file_to_string_arr(file):
 
         elif possible_funct == True:
             current_string.append(char)
-    print(f"string array:\n{string_array}")
-
     return string_array
 
 def mul(i1, i2):
     return i1 * i2
 
-def pull_args(funct_str):
-    # return array of tuples, to be arguments for mul() function
-    pass
+def pull_args(funct_str_arr):
+    arg_list = []
+    for str in funct_str_arr:
+        arg_array = str[4:-1].split(',')
+        
+        sub_list = []
+        for item in arg_array:
+            if item.isdigit():
+                sub_list.append(int(item))
+            else:
+                break
+        if sub_list != []:
+            arg_list.append(sub_list)        
+    return arg_list
 
+def get_answer(args_list):
+    total = 0
+    for item in args_list:
+        if len(item) > 1:
+            a, b = item
+            if a <= 999 and b <= 999:
+                total += mul(a, b)
+    return total
 
 
 def main():
     puzzle_file = split_file_to_string_arr(remove_invalid_chars(get_data("./puzzle-input.txt")))
-    test_puzzle_file = split_file_to_string_arr(remove_invalid_chars(get_data("./test-puzzle-section.txt")))
+    #test_puzzle_file = split_file_to_string_arr(remove_invalid_chars(get_data("./test-puzzle-section.txt")))
     test_file = split_file_to_string_arr(remove_invalid_chars(get_data("./test-input.txt")))
 
 
@@ -62,19 +79,34 @@ def main():
 
 #----------------------------
     print(f"TEST FILE:\n{test_file}")
-    print("split file\n",test_file)
 
     test_args = pull_args(test_file)
+    print("test args:\n", test_args)
+
+    answer(get_answer(test_args))
+
+    
+    test = split_file_to_string_arr(remove_invalid_chars(get_data("./test.txt")))
+
+    print(f"TEST:\n{test}")
+    t_args = pull_args(test)
+    print("args:\n", t_args)
+
+    answer(get_answer(t_args))
+                                                      
+                                            
+    
 
     #print(f"TEST PUZZLE SECTION\n")
-    #print("split file\n",test_puzzle_file)
 
     #test_puzzle_args = pull_args(test_puzzle_file)
+    #print("test puzzle args:\n", test_puzzle_args)
 
-    #print(f"PUZZLE FILE:\n")
-    #print("split file\n", puzzle_file)
+    print(f"PUZZLE FILE:\n")
 
-    #puzzle_args = pull_args(test_file)
+    puzzle_args = pull_args(puzzle_file)
+    print("puzzle args:\n", puzzle_args)
+    answer(get_answer(puzzle_args))
 
     
 
