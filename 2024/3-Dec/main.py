@@ -17,43 +17,64 @@ def remove_invalid_chars(str):
             char_arr.append(char)
     return "".join(char_arr)
 
-def check_string(str):
-    print(str) #---------------------------------- working in this part ---------------
-    return True
-
 def split_file_to_string_arr(file):
     string_array = []
     current_string = []
+    possible_funct = False
     for char in file:
-        if char == ')':
-            current_string.append(char)
-            str = "".join(current_string)
-            if check_string(str) == True: # --------------- working in this part
-                string_array.append(str)
+        if char == 'm':
+            possible_funct = True
             current_string = []
-        else:
+            current_string.append(char)
+
+        elif char == ')':
+            current_string.append(char)
+
+            if  len(current_string) >= 8:
+                string_array.append("".join(current_string))
+
+            possible_funct = False
+            current_string = []
+
+        elif possible_funct == True:
             current_string.append(char)
     print(f"string array:\n{string_array}")
 
     return string_array
 
+def mul(i1, i2):
+    return i1 * i2
+
+def pull_args(funct_str):
+    # return array of tuples, to be arguments for mul() function
+    pass
+
+
 
 def main():
-    puzzle_file = remove_invalid_chars(get_data("./puzzle-input.txt"))
-    test_puzzle_file = remove_invalid_chars(get_data("./test-puzzle-section.txt"))
-    test_file = remove_invalid_chars(get_data("./test-input.txt"))
+    puzzle_file = split_file_to_string_arr(remove_invalid_chars(get_data("./puzzle-input.txt")))
+    test_puzzle_file = split_file_to_string_arr(remove_invalid_chars(get_data("./test-puzzle-section.txt")))
+    test_file = split_file_to_string_arr(remove_invalid_chars(get_data("./test-input.txt")))
 
 
     advent_intro(2024, 3)
 
+
 #----------------------------
-    print(f"TEST FILE:\n")
-    print("split file\n",split_file_to_string_arr(test_file))
+    print(f"TEST FILE:\n{test_file}")
+    print("split file\n",test_file)
 
-    print(f"TEST PUZZLE SECTION\n")
-    print("split file\n",split_file_to_string_arr(test_puzzle_file))
+    test_args = pull_args(test_file)
 
-    #print(f"PUZZLE FILE:\n{puzzle_file}")
+    #print(f"TEST PUZZLE SECTION\n")
+    #print("split file\n",test_puzzle_file)
+
+    #test_puzzle_args = pull_args(test_puzzle_file)
+
+    #print(f"PUZZLE FILE:\n")
+    #print("split file\n", puzzle_file)
+
+    #puzzle_args = pull_args(test_file)
 
     
 
