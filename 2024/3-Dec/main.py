@@ -26,16 +26,12 @@ def split_file_to_string_arr(file):
             possible_funct = True
             current_string = []
             current_string.append(char)
-
         elif char == ')':
             current_string.append(char)
-
             if  len(current_string) >= 8:
                 string_array.append("".join(current_string))
-
             possible_funct = False
             current_string = []
-
         elif possible_funct == True:
             current_string.append(char)
     return string_array
@@ -47,7 +43,6 @@ def pull_args(funct_str_arr):
     arg_list = []
     for str in funct_str_arr:
         arg_array = str[4:-1].split(',')
-        
         sub_list = []
         for item in arg_array:
             if item.isdigit():
@@ -70,52 +65,12 @@ def get_answer(args_list):
 
 def main():
     puzzle_file = split_file_to_string_arr(remove_invalid_chars(get_data("./puzzle-input.txt")))
-    #test_puzzle_file = split_file_to_string_arr(remove_invalid_chars(get_data("./test-puzzle-section.txt")))
-    test_file = split_file_to_string_arr(remove_invalid_chars(get_data("./test-input.txt")))
-
 
     advent_intro(2024, 3)
-
-
-#----------------------------
-    print(f"TEST FILE:\n{test_file}")
-
-    test_args = pull_args(test_file)
-    print("test args:\n", test_args)
-
-    answer(get_answer(test_args))
-
-    
-    test = split_file_to_string_arr(remove_invalid_chars(get_data("./test.txt")))
-
-    print(f"TEST:\n{test}")
-    t_args = pull_args(test)
-    print("args:\n", t_args)
-
-    answer(get_answer(t_args))
-                                                      
-                                            
-    
-
-    #print(f"TEST PUZZLE SECTION\n")
-
-    #test_puzzle_args = pull_args(test_puzzle_file)
-    #print("test puzzle args:\n", test_puzzle_args)
-
-    print(f"PUZZLE FILE:\n")
-
     puzzle_args = pull_args(puzzle_file)
-    print("puzzle args:\n", puzzle_args)
+    # !!! The wrong answer is shown
+    print("\033[31m!!! This answer is incorrect !!!\033[37m")
     answer(get_answer(puzzle_args))
-
-    
-
-
-
-
-
-
-#-------------------------------
 
 
 
