@@ -31,7 +31,11 @@ def find_word(word_to_find, puzzle):
     test = [] # test code
     count = 0
     search_possition = 0
-    while current_row < rows and current_col < letters:
+    #while current_row < rows and current_col < letters:
+    for direction in directions:
+        x = direction[0]
+        y = direction[1]
+        print(f"x: {x}  y: {y}")
         test = [] # test code
         
         for j in range(rows-1):
@@ -39,20 +43,30 @@ def find_word(word_to_find, puzzle):
             for i in range(letters-1):
                 
                 letter = puzzle[j][i]
+                if letter == word_to_find[search_possition]:
+                    found += letter
+                    print(f"found: {found}")
+                    search_possition += 1
+                    if search_possition > len(word_to_find) - 1:
+                        search_possition = 0
+                        count += 1
+                else:
+                    found = ""
+                    search_possition = 0
 
 
 
 
                 test.append(letter) # test code
 
-                current_col += 1
+                current_col += x
             
             test.append('\n')
 
 
             
 
-        current_row += 1
+        current_row += y
 
     print("".join(test)) # test code
     
