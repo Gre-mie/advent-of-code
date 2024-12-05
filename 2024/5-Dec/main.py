@@ -32,7 +32,51 @@ def check_lines_are_odd(arr_of_lines):
         return f"\033[33mAll arrays have an ODD number of elements\033[37m"
     else:
         return f"\033[33mSome arrays have an EVEN number of elements\033[37m"
+    
+def find_rule(num, rules):
+    rules_found = []
+    for rule in rules:
+        a, b = rule
+        if num == a or num == b:
+            rules_found.append(rule) 
+    return rules_found
 
+def get_indexs(rule, update):
+    first, second = rule
+    if first in update:
+        index_1 = update.index(first)
+    else:
+        index_1 = '-'
+    if second in update:
+        index_2 = update.index(second)
+    else:
+        index_2 = '-'
+    return index_1, index_2
+
+def check_updates(updates_arr, rules):
+    correct_updates = updates_arr.copy()
+    for i in range(len(updates_arr) -1):
+        update = updates_arr[i]
+        print(update)
+        for num in update:
+            relevent_rules = find_rule(num, rules)
+            if not relevent_rules == []:
+                for rule in relevent_rules:
+                    indexs = get_indexs(rule, update)
+                    #print(f"index 1: {indexs[0]}\nindex 2: {indexs[1]}\n")
+                    if not '-' in indexs:
+                        a, b = indexs
+                        if a > b:
+                            print("------------ bad update ----------------")
+                            if update in correct_updates:
+                                correct_updates.remove(update)
+    return correct_updates
+
+def get_answer(correct_arr):
+    count = 0
+    for update in correct_arr:
+        count += update[int(len(update) / 2)]
+    return count
 
 
 def main():
@@ -53,46 +97,15 @@ def main():
     print(f"TEST: First section:\n{t_rules}\n")
     print(f"TEST: Second section:\n{t_updates_arr}\n")
 
-
-
 #--------------------------------------------------------
 
-
-# Function: check if update is in correct order
-# Run once, check for correct updates in array : use sort updates method
-        # return correct arrays
-        # remove correct arrays from array of updates to validate
-
-# loop correct arrays adding together the middle numbers
-        # print answer
-                # result should be '143'
-
-
-        #!!!!!! DO NOT SORT THE UPDATES !!!!!!!!!!
-# sort updates in array of updates to vaildate
-        # in each update, 
-            # num of swaps = 0
-            # check if number is in tuples
-                # if in tuples, check if second number in tuple is in update
-                                                    # get its index
-                # check if index of current num and saved num are in correct order
-                        # if not, swap the numbers using their indexs
-                                    # num of swaps + 1
-            # if num of swaps = 0 add update to correct arrays
+    # Note: The last update in correct updates should not be added to the array :/
     
-                        
+    #print("\nTEST: correct updates:\n", correct_updates)
 
 #--------------------------------------------------------  
-
-    
-    
-
-
     advent_intro(2024, 5)
-
-
-
-
+    answer(get_answer(check_updates(t_updates_arr, t_rules)))
 
 
 if __name__ == "__main__":
