@@ -8,20 +8,12 @@ def get_file(path):
     with open(path, 'r') as file:
         return file.read()
 
-def split_to_tuple(str):
+def split_str(str, split_by, funct):
     arr = str.split('\n')
     new_arr = []
     for line in arr:
-        new_arr.append(tuple(map(lambda num: int(num), line.split('|'))))
+        new_arr.append(funct(map(lambda n: int(n), line.split(split_by))))
     return new_arr
-
-def split_to_arrs_of_nums(str):
-    arr = str.split('\n')
-    new_arr = []
-    for line in arr:
-        new_arr.append(list(map(lambda num: int(num), line.split(','))))
-    return new_arr
-
 
 
 
@@ -29,18 +21,18 @@ def split_to_arrs_of_nums(str):
 def main():
     
     puzzle_file = get_file("./puzzle-input.txt").split("\n\n")
-    puzzle_first_sect, puzzle_second_sect = split_to_tuple(puzzle_file[0]), split_to_arrs_of_nums(puzzle_file[1])
+    puzzle_first_sect, puzzle_second_sect = split_str(puzzle_file[0], '|', tuple), split_str(puzzle_file[1], ',', list)
 
-    #print(f"PUZZLE: First section:\n{puzzle_first_sect}")
-    #print(f"PUZZLE: Second section:\n{puzzle_second_sect}")
+    #print(f"PUZZLE: First section:\n{puzzle_first_sect}\n")
+    #print(f"PUZZLE: Second section:\n{puzzle_second_sect}\n")
 
 #------------------------------------------------------
 
     test_file = get_file("./test-input.txt").split("\n\n")
-    test_first_sect, test_second_sect = split_to_tuple(test_file[0]), split_to_arrs_of_nums(test_file[1])
+    test_first_sect, test_second_sect = split_str(test_file[0], '|', tuple), split_str(test_file[1], ',', list)
 
-    print(f"TEST: First section:\n{test_first_sect}")
-    print(f"TEST: Second section:\n{test_second_sect}")
+    print(f"TEST: First section:\n{test_first_sect}\n")
+    print(f"TEST: Second section:\n{test_second_sect}\n")
 
     
 
