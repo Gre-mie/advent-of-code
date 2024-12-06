@@ -50,19 +50,15 @@ class Guard:
         return
 
     def turn(self):
+        turn = {
+            '^': ('>', "right"),
+            '>': ('v', "down"),
+            'v': ('<', "left"),
+            '<': ('^', "up")
+            }
         print("turning...")
-        if self.char == '^':
-            self.direction = "right"
-            self.char = '>'
-        elif self.char == '>':
-            self.direction = "down"
-            self.char = 'v'
-        elif self.char == 'v':
-            self.direction = "left"
-            self.char = '<'
-        elif self.char == '<':
-            self.direction = "up"
-            self.char = '^'
+        self.char = turn[self.char][0]
+        self.direction = turn[self.char][1]
 
     def move(self, game_board):
         new_game_board = game_board.copy()
