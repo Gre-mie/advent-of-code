@@ -14,23 +14,19 @@ def check_game_end():
     #gaurd position y > board height -> board
     return True # game has ended guard has left the board
 
-def print_board(board):
-    for line in board:
-        print("".join(line))
-
 def find_guard(board, board_width, board_height):
-    for i in range(board_height):
-        for j in range(board_width):
-            char = board[i][j]
+    for x in range(board_height):
+        for y in range(board_width):
+            char = board[y][x]
             match char:
                 case '^':
-                    return i, j, "up"
+                    return x, y
                 case 'v':
-                    return i, j, "down"
+                    return x, y
                 case '<':
-                    return i, j, "left"
+                    return x, y
                 case '>':
-                    return i, j, "right"     
+                    return x, y   
     raise Exception("\033[31mGuard could not be found on the board:\033[93;2m find_guard(board)\033[37;0m")
                 
 
@@ -38,36 +34,43 @@ def find_guard(board, board_width, board_height):
 #-----  -----   -----   -----   -----
 
 class Guard:
-    def __init__(self, x_y_direction_tuple, directions):
-        self.x = x_y_direction_tuple[0]
-        self.y = x_y_direction_tuple[1]
+    def __init__(self, game_board):
+        self.game_board = game_board.copy()
+        self.board_width = self.game_board[0]
+        self.board_height = self.game_board
 
-        self.direction = x_y_direction_tuple[2]
-        self.char = directions[self.direction]
+        self.x, self.y = find_guard(game_board, len(self.board_width), len(self.board_height))
+        self.char = self.game_board[self.y][self.x]
+
+    def print_board(self):
+        for line in self.game_board:
+            print("".join(line))
     
-    def check_ahead(self, game_board):
+    def check_ahead(self):
         return "blocked" # test code
         return
 
     def turn(self):
         turn = {
-            '^': ('>', "right"),
-            '>': ('v', "down"),
-            'v': ('<', "left"),
-            '<': ('^', "up")
+            '^': '>',
+            '>': 'v',
+            'v': '<',
+            '<': '^'
             }
         print("turning...")
-        self.char = turn[self.char][0]
-        self.direction = turn[self.char][1]
+        if self.char in turn:
+            self.char = turn[self.char]
+        else:
+            raise Exception("\033[31mGuard not selected\033[37;0m")
 
-    def move(self, game_board):
-        new_game_board = game_board.copy()
-        if self.check_ahead(game_board) == "blocked":
+    def move(self):
+        #new_game_board = self.game_board
+        if self.check_ahead() == "blocked":
             self.turn()
-            new_game_board[self.x][self.y] = self.char
+            self.game_board[self.y][self.x] = self.char
 
         
-        return new_game_board
+        #return new_game_board
 
 
 #-----  -----   -----   -----   -----
@@ -79,29 +82,23 @@ def main():
     puzzle_file = get_file("./puzzle-input.txt")
     test_file = get_file("./test-input.txt")
 
-    BOARD_WIDTH = len(test_file)
-    BOARD_HEIGHT = len(test_file[0])
+    guard = Guard(test_file) # test arguments
 
-    print(f"BOARD WIDTH: {BOARD_WIDTH}\nBOARD HEIGHT: {BOARD_HEIGHT}\n")
+    print(f"GUARD:\nx: {guard.x}\ny: {guard.y}\n\nchar: {guard.char}")
+    print(f"BOARD WIDTH: {guard.board_width}\nBOARD HEIGHT: {guard.board_height}\n")
 
-    directions = {
-        "up":    '^',
-        "down":  'v',
-        "left":  '<',
-        "right": '>'
-    }
+    
 
-    game_board = test_file.copy() # TEST game board
-    print("GAME BOARD START:\n", print_board(game_board))
+    #game_board = test_file.copy() # TEST game board
+    print("GAME BOARD START:\n", guard.print_board())
 
 
 
 #---------------------------------------
     advent_intro(2024, 6)
     
-    guard = Guard(find_guard(game_board, BOARD_WIDTH, BOARD_HEIGHT), directions) # test arguments
 
-    print(f"GUARD:\nx: {guard.x}\ny: {guard.y}\ndirection: {guard.direction}\nchar: {guard.char}")
+    
 
     game_end = False
     #while game_end == False:
@@ -113,10 +110,10 @@ def main():
   #           break
         print("\ngame running...") # test code
 
-        game_board = guard.move(game_board)
+        guard.move()
 
         # will need to update board before calling
-        print_board(game_board)
+        guard.print_board()
 
 
 
