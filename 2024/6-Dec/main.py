@@ -37,7 +37,16 @@ def find_guard(board, board_width, board_height):
                 case '>':
                     return x, y   
     raise Exception("\033[31mGuard could not be found on the board:\033[93;2m find_guard(board)\033[37;0m")
-                
+
+def run_game(object):
+    game_end = False
+    while game_end == False:
+        if check_game_end(object.x, object.y, object.board_width, object.board_height) == True:
+            game_end = True
+            break
+        else:
+            object.update()
+            #object.print_board()
 
 
 #-----  -----   -----   -----   -----
@@ -61,26 +70,18 @@ class Guard:
             if self.y - 1 < 0 or self.y - 1 > self.board_width - 1:
                 return
             ahead = self.game_board[self.y - 1][self.x]
-            #print(f"--- {self.char} | {ahead} ---")
-
         elif self.char == '>':
             if self.x + 1 < 0 or self.x - 1 > self.board_width + 1:
                 return
             ahead = self.game_board[self.y][self.x + 1]
-            #print(f"--- {self.char} | {ahead} ---")
-
         elif self.char == 'v':
             if self.y + 1 < 0 or self.y + 1 > self.board_width - 1:
                 return
             ahead = self.game_board[self.y + 1][self.x]
-            #print(f"--- {self.char} | {ahead} ---")
-
         elif self.char == '<':
             if self.x - 1 < 0 or self.x - 1 > self.board_width - 1:
                 return
             ahead = self.game_board[self.y][self.x - 1]
-            #print(f"--- {self.char} | {ahead} ---")
-
         else:
             raise Exception("\033[31mGuard not selected\033[37;0m")
         
@@ -95,7 +96,6 @@ class Guard:
             'v': '<',
             '<': '^'
             }
-        print("\033[33;2mturning...\033[37;0m")
         if self.char in turn:
             self.char = turn[self.char]
         else:
@@ -133,38 +133,11 @@ def main():
     puzzle_file = get_file("./puzzle-input.txt")
     test_file = get_file("./test-input.txt")
 
-    guard = Guard(test_file) # test arguments
+    guard = Guard(puzzle_file)
 
-    print(f"GUARD:\nx: {guard.x}\ny: {guard.y}\nchar: {guard.char}\n")
-    print(f"BOARD WIDTH: {guard.board_width}\nBOARD HEIGHT: {guard.board_height}\n")
-
-    print("GAME BOARD START:")
-    guard.print_board()
-
-
-
-#---------------------------------------
     advent_intro(2024, 6)
-    
-
-    
-    
-    game_end = False
-    while game_end == False:
-        print("\nchecking exit condition...")
-        if check_game_end(guard.x, guard.y, guard.board_width, guard.board_height) == True:
-            print(f"x: {guard.x}  width: {guard.board_width}\ny: {guard.y}  height: {guard.board_height}")
-            print("EXITING GAME")
-            game_end = True
-            break
-        else:
-            print("game running...")
-            guard.update()
-            guard.print_board()
-
-    print("--- --- --- FINAL BOARD --- --- ---")
+    run_game(guard)
     final_board = guard.game_board
-    guard.print_board()
 
     answer(count_x(final_board))
 
