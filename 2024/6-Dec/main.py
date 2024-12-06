@@ -36,10 +36,10 @@ def find_guard(board, board_width, board_height):
 class Guard:
     def __init__(self, game_board):
         self.game_board = game_board.copy()
-        self.board_width = self.game_board[0]
-        self.board_height = self.game_board
+        self.board_width = len(self.game_board[0])
+        self.board_height = len(self.game_board)
 
-        self.x, self.y = find_guard(game_board, len(self.board_width), len(self.board_height))
+        self.x, self.y = find_guard(game_board, self.board_width, self.board_height)
         self.char = self.game_board[self.y][self.x]
 
     def print_board(self):
@@ -47,7 +47,7 @@ class Guard:
             print("".join(line))
     
     def check_ahead(self):
-        return "blocked" # test code
+        # can return "blocked"
         return
 
     def turn(self):
@@ -62,15 +62,27 @@ class Guard:
             self.char = turn[self.char]
         else:
             raise Exception("\033[31mGuard not selected\033[37;0m")
-
+        
     def move(self):
-        #new_game_board = self.game_board
+        self.game_board[self.y][self.x] = 'X'
+        if self.char == '^':
+            self.y -= 1
+        elif self.char == '>':
+            self.x += 1
+        elif self.char == 'v':
+            self.y += 1
+        elif self.char == '<':
+            self.x -= 1
+        else:
+            raise Exception("\033[31mGuard not selected\033[37;0m")
+
+    def update(self):
         if self.check_ahead() == "blocked":
             self.turn()
-            self.game_board[self.y][self.x] = self.char
+        else:
+            self.move()
+        self.game_board[self.y][self.x] = self.char
 
-        
-        #return new_game_board
 
 
 #-----  -----   -----   -----   -----
@@ -84,7 +96,7 @@ def main():
 
     guard = Guard(test_file) # test arguments
 
-    print(f"GUARD:\nx: {guard.x}\ny: {guard.y}\n\nchar: {guard.char}")
+    print(f"GUARD:\nx: {guard.x}\ny: {guard.y}\nchar: {guard.char}\n")
     print(f"BOARD WIDTH: {guard.board_width}\nBOARD HEIGHT: {guard.board_height}\n")
 
     
@@ -102,7 +114,7 @@ def main():
 
     game_end = False
     #while game_end == False:
-    for i in range(4): # test code
+    for i in range(3): # test code
 #        print("checking exit condition...") # test code
 #        if check_game_end() == True:
  #           prin
@@ -110,7 +122,7 @@ def main():
   #           break
         print("\ngame running...") # test code
 
-        guard.move()
+        guard.update()
 
         # will need to update board before calling
         guard.print_board()
