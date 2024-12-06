@@ -8,11 +8,12 @@ def get_file(path):
     with open(path, 'r') as file:
         return list(map(lambda line: list(line), file.read().split('\n')))
 
-def check_game_end():
-    #if gaurd position x > board width -> board[0]
-    #or
-    #gaurd position y > board height -> board
-    return True # game has ended guard has left the board
+def check_game_end(x, y, board_width, board_height):
+    if x < 0 or x > board_width - 1:
+        return True
+    if y < 0 or y > board_height -1:
+        return True
+    return False
 
 def find_guard(board, board_width, board_height):
     for x in range(board_height):
@@ -81,7 +82,8 @@ class Guard:
             self.turn()
         else:
             self.move()
-        self.game_board[self.y][self.x] = self.char
+        if check_game_end(self.x, self.y, self.board_width, self.board_height) == False:
+            self.game_board[self.y][self.x] = self.char
 
 
 
@@ -99,10 +101,8 @@ def main():
     print(f"GUARD:\nx: {guard.x}\ny: {guard.y}\nchar: {guard.char}\n")
     print(f"BOARD WIDTH: {guard.board_width}\nBOARD HEIGHT: {guard.board_height}\n")
 
-    
-
-    #game_board = test_file.copy() # TEST game board
-    print("GAME BOARD START:\n", guard.print_board())
+    print("GAME BOARD START:")
+    guard.print_board()
 
 
 
@@ -113,19 +113,21 @@ def main():
     
 
     game_end = False
-    #while game_end == False:
-    for i in range(3): # test code
-#        print("checking exit condition...") # test code
-#        if check_game_end() == True:
- #           prin
-  # t("EXITING GAME") # test code 
-  #           break
-        print("\ngame running...") # test code
+    while game_end == False:
+        print("\nchecking exit condition...")
+        if check_game_end(guard.x, guard.y, guard.board_width, guard.board_height) == True:
+            print(f"x: {guard.x}  width: {guard.board_width}\ny: {guard.y}  height: {guard.board_height}")
+            print("EXITING GAME")
+            game_end = True
+            break
+        else:
+            print("game running...")
+            guard.update()
+            guard.print_board()
 
-        guard.update()
-
-        # will need to update board before calling
-        guard.print_board()
+    print("--- --- --- FINAL BOARD --- --- ---")
+    final_board = guard.game_board
+    guard.print_board()
 
 
 
