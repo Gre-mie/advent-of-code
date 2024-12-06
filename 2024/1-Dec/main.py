@@ -4,24 +4,18 @@ def advent_intro(year, day, part=1):
 def answer(answer):
     print(f"ANSWER: {answer}\n")
 
-def format_data(line):
-    first, second = line.split("   ")
-    second = second.strip("\n")
-    return first, second
-
 def convert_string_array_to_lists(data_array):
     list_1 = []
     list_2 = []
     for item in data_array:
-        first, second = format_data(item)
+        first, second = item.split("   ")
         list_1.append(int(first))
         list_2.append(int(second))
     return list_1, list_2
 
-def get_lists(file_path):
-    file = open(file_path)
-    lines_array = file.readlines()
-    return convert_string_array_to_lists(lines_array)
+def get_lists(path):
+    with open(path, 'r') as file:
+        return file.read().split('\n')
 
 def find_difference(min_1, min_2):    
     smallest = sorted([min_1, min_2])
@@ -49,7 +43,7 @@ def count_duplicates(num_to_find, list_to_search):
 
 def main():
 
-    puzzle_list_1, puzzle_list_2 = get_lists("./puzzle-input.txt")
+    puzzle_list_1, puzzle_list_2 = convert_string_array_to_lists(get_lists("./puzzle-input.txt"))
 
     advent_intro(2024, 1)
     answer(get_total_differences(puzzle_list_1, puzzle_list_2))
