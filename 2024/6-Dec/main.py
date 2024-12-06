@@ -48,7 +48,36 @@ class Guard:
             print("".join(line))
     
     def check_ahead(self):
-        # can return "blocked"
+        ahead = ""
+        if self.char == '^':
+            if self.y - 1 < 0 or self.y - 1 > self.board_width - 1:
+                return
+            ahead = self.game_board[self.y - 1][self.x]
+            #print(f"--- {self.char} | {ahead} ---")
+
+        elif self.char == '>':
+            if self.x + 1 < 0 or self.x - 1 > self.board_width + 1:
+                return
+            ahead = self.game_board[self.y][self.x + 1]
+            #print(f"--- {self.char} | {ahead} ---")
+
+        elif self.char == 'v':
+            if self.y + 1 < 0 or self.y + 1 > self.board_width - 1:
+                return
+            ahead = self.game_board[self.y + 1][self.x]
+            #print(f"--- {self.char} | {ahead} ---")
+
+        elif self.char == '<':
+            if self.x - 1 < 0 or self.x - 1 > self.board_width - 1:
+                return
+            ahead = self.game_board[self.y][self.x - 1]
+            #print(f"--- {self.char} | {ahead} ---")
+
+        else:
+            raise Exception("\033[31mGuard not selected\033[37;0m")
+        
+        if ahead == '#':
+            return "blocked"
         return
 
     def turn(self):
@@ -58,7 +87,7 @@ class Guard:
             'v': '<',
             '<': '^'
             }
-        print("turning...")
+        print("\033[33;2mturning...\033[37;0m")
         if self.char in turn:
             self.char = turn[self.char]
         else:
