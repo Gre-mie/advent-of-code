@@ -6,7 +6,7 @@ def answer(answer):
 
 def get_file(path):
     with open(path, 'r') as file:
-        return file.read().split('\n')
+        return list(map(lambda line: list(line), file.read().split('\n')))
 
 def check_game_end():
     #if gaurd position x > board width -> board[0]
@@ -16,7 +16,7 @@ def check_game_end():
 
 def print_board(board):
     for line in board:
-        print(line)
+        print("".join(line))
 
 def find_guard(board, board_width, board_height):
     for i in range(board_height):
@@ -44,6 +44,34 @@ class Guard:
 
         self.direction = x_y_direction_tuple[2]
         self.char = directions[self.direction]
+    
+    def check_ahead(self, game_board):
+        return "blocked" # test code
+        return
+
+    def turn(self):
+        print("turning...")
+        if self.char == '^':
+            self.direction = "right"
+            self.char = '>'
+        elif self.char == '>':
+            self.direction = "down"
+            self.char = 'v'
+        elif self.char == 'v':
+            self.direction = "left"
+            self.char = '<'
+        elif self.char == '<':
+            self.direction = "up"
+            self.char = '^'
+
+    def move(self, game_board):
+        new_game_board = game_board.copy()
+        if self.check_ahead(game_board) == "blocked":
+            self.turn()
+            new_game_board[self.x][self.y] = self.char
+
+        
+        return new_game_board
 
 
 #-----  -----   -----   -----   -----
@@ -68,6 +96,7 @@ def main():
     }
 
     game_board = test_file.copy() # TEST game board
+    print("GAME BOARD START:\n", print_board(game_board))
 
 
 
@@ -80,13 +109,15 @@ def main():
 
     game_end = False
     #while game_end == False:
-    for i in range(3): # test code
+    for i in range(4): # test code
 #        print("checking exit condition...") # test code
 #        if check_game_end() == True:
  #           prin
   # t("EXITING GAME") # test code 
   #           break
         print("\ngame running...") # test code
+
+        game_board = guard.move(game_board)
 
         # will need to update board before calling
         print_board(game_board)
