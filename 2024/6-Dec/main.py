@@ -4,6 +4,14 @@ def advent_intro(year, day, part=1):
 def answer(answer):
     print(f"ANSWER: {answer}\n")
 
+def count_x(board):
+    count = 0
+    for line in board:
+        for char in line:
+            if char == 'X':
+                count += 1
+    return count
+
 def get_file(path):
     with open(path, 'r') as file:
         return list(map(lambda line: list(line), file.read().split('\n')))
@@ -140,7 +148,7 @@ def main():
     
 
     
-
+    
     game_end = False
     while game_end == False:
         print("\nchecking exit condition...")
@@ -158,6 +166,7 @@ def main():
     final_board = guard.game_board
     guard.print_board()
 
+    answer(count_x(final_board))
 
 
 
