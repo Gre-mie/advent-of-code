@@ -67,24 +67,19 @@ class Guard:
     def check_ahead(self):
         ahead = ""
         if self.char == '^':
-            if self.y - 1 < 0 or self.y - 1 > self.board_width - 1:
-                return
-            ahead = self.game_board[self.y - 1][self.x]
+            if self.y - 1 > 0 or self.y - 1 < self.board_width - 1:
+                ahead = self.game_board[self.y - 1][self.x]
         elif self.char == '>':
-            if self.x + 1 < 0 or self.x - 1 > self.board_width + 1:
-                return
-            ahead = self.game_board[self.y][self.x + 1]
+            if self.x + 1 > 0 or self.x - 1 < self.board_width + 1:
+                ahead = self.game_board[self.y][self.x + 1]
         elif self.char == 'v':
-            if self.y + 1 < 0 or self.y + 1 > self.board_width - 1:
-                return
-            ahead = self.game_board[self.y + 1][self.x]
+            if self.y + 1 > 0 or self.y + 1 < self.board_width - 1:
+                ahead = self.game_board[self.y + 1][self.x]
         elif self.char == '<':
-            if self.x - 1 < 0 or self.x - 1 > self.board_width - 1:
-                return
-            ahead = self.game_board[self.y][self.x - 1]
+            if self.x - 1 > 0 or self.x - 1 < self.board_width - 1:
+                ahead = self.game_board[self.y][self.x - 1]
         else:
             raise Exception("\033[31mGuard not selected\033[37;0m")
-        
         if ahead == '#':
             return "blocked"
         return
@@ -122,11 +117,7 @@ class Guard:
         if check_game_end(self.x, self.y, self.board_width, self.board_height) == False:
             self.game_board[self.y][self.x] = self.char
 
-
-
 #-----  -----   -----   -----   -----
-
-
 
 def main():
     
@@ -138,12 +129,7 @@ def main():
     advent_intro(2024, 6)
     run_game(guard)
     final_board = guard.game_board
-
     answer(count_x(final_board))
-
-
-
-
 
 if __name__ == "__main__":
     main()
