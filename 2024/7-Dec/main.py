@@ -37,7 +37,6 @@ def remove_valid(valid_list, dic):
     return new_dic
 
 
-
 def main():
     
     puzzle_file = orginise_data(get_file("./puzzle-input.txt"))
@@ -47,46 +46,33 @@ def main():
     equations = puzzle_file.copy()
     valid_equations = []
 
-#    print(f"\nequations len:      ", len(equations))
- #   print(f"valid equations len:", len(valid_equations))
-  #  print()
-
     valid_equations = check_for(add_all, equations)
     equations = remove_valid(valid_equations, equations) 
-
-    
-
-    print(f"\nequations len:      ", len(equations))
-    print(f"valid equations len:", len(valid_equations))
-    print()
     
     print(valid_equations)
-            
     answer(add_all(valid_equations))
-
-
 
 #---------------------------------------------
 
-#    dic = {
- #       "key-one": (1,2,3),
-  #      "key-two": (4,5,6),
-   #     "key-three": (7,8,9),
-    #    "key-four": (10,11,12),
-     #   "key-five": (13,14,15)
-      #     }
+# --- --- --- NOTES: --- --- ---
+# I dont have much time today, but know the way I've started this is not going to work.
 
-#    print("keys:", list(dic))
- #   del dic["key-two"]
-  #  print("keys", list(dic))
-
-#    items = dic.items()
- #   for item in items:
-  #      print(item)
-   # for key, values in items:
-    #    print(f"key: {key}  values: {values}")
-
-#-------------------------------------------------------
+# A method and some sudo code for how I'd like to attempt this challenge again:
+    # use - and / to reduce the test_value.
+    # Will use recursion to try out the different possiblities
+        # returns list of operators eg [+, *, *]
+        # try operation, test_value - next num in list eg list[0]
+            # if num after operation < 0
+                # return to try a new path
+            # else 
+                # append '+' to list of operators
+                # recurse with list[:-1], list of operators
+        # try operation, test_value / next num in list eg list[0]
+            # if num after operation < 0
+                # return to try a new path
+            # else 
+                # append '*' to list of operators
+                # recurse with list[:-1], list of operators
 
 
 if __name__ == "__main__":
