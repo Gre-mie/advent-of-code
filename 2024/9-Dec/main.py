@@ -44,36 +44,22 @@ def move_file_blocks(arr):
         start += 1
     return new_arr
 
-
+def get_checksum(arr):
+    total = 0
+    for i in range(len(arr)):
+        if arr[i] != '.':
+            total += i * arr[i]
+        else:
+            return total
+        
 
 def main():
 
-    puzzle_file = get_file("./puzzle-input.txt")
-    test_file = get_file("./test-input.txt")
-
-    p_exp = expand_disc_map(get_file("./puzzle-input.txt"))
-    t_exp = expand_disc_map(get_file("./test-input.txt"))
-
-    p_file_block = move_file_blocks(expand_disc_map(get_file("./puzzle-input.txt")))
-    t_file_block = move_file_blocks(expand_disc_map(get_file("./test-input.txt")))
-
-
-    print(f"{test_file}\n\n{t_exp}\n")
-    print("move file returns:", "".join(list(map(lambda item: str(item) , t_file_block))), "\n") # testing
-
-#--------------------------------------------------------
-
-
-
-#--------------------------------------------------------
-
+    p_memory_blocks = move_file_blocks(expand_disc_map(get_file("./puzzle-input.txt")))
+    t_memory_blocks = move_file_blocks(expand_disc_map(get_file("./test-input.txt")))
 
     advent_intro(2024, 9)
-
-
-
-
-
+    answer(get_checksum(p_memory_blocks))
 
 if __name__ == "__main__":
     main()
