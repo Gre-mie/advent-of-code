@@ -29,6 +29,20 @@ def expand_disc_map(file_arr):
             new_arr += expand_element(file_arr[i])
     return new_arr
 
+def move_file_blocks(arr):
+    new_arr = arr.copy()
+    start = 0
+    end = len(new_arr) - 1
+    while start < end:
+        if new_arr[start] == '.':
+            if new_arr[end] != '.':
+                new_arr[start] = new_arr[end]
+                new_arr[end] = '.'
+            else:
+                start -= 1            
+            end -= 1
+        start += 1
+    return new_arr
 
 
 
@@ -40,9 +54,14 @@ def main():
     p_exp = expand_disc_map(get_file("./puzzle-input.txt"))
     t_exp = expand_disc_map(get_file("./test-input.txt"))
 
-#--------------------------------------------------------
+    p_file_block = move_file_blocks(expand_disc_map(get_file("./puzzle-input.txt")))
+    t_file_block = move_file_blocks(expand_disc_map(get_file("./test-input.txt")))
+
 
     print(f"{test_file}\n\n{t_exp}\n")
+    print("move file returns:", "".join(list(map(lambda item: str(item) , t_file_block))), "\n") # testing
+
+#--------------------------------------------------------
 
 
 
