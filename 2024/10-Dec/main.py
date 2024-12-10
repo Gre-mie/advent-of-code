@@ -23,6 +23,18 @@ def run(walker, directions):
             reached_end = True
         print(f"walker:\ny: {walker.y}  x: {walker.x}\npath = {walker.path}\n")
 
+
+        for direction in directions:
+            print(f"searching: {walker.searching_for}\nstanding: {walker.num}\n")
+
+            if walker.y >= 0 and walker.y < walker.board_height - 1:
+                if walker.x >= 0 and walker.x < walker.board_width - 1:
+                    found = walker.look(direction)
+                    print(f"look {direction}:", found)
+
+        #if found == t_walker.searching_for:
+         #   print(f"\nwalker standing on: {t_walker.searching_for}\n{found} is {direction}\n")
+
     # testing v
         if walker.x == walker.board_height:
             walker.y += 1
@@ -30,15 +42,6 @@ def run(walker, directions):
         walker.x += 1
     # testing ^
 
-
-
-
-    # for direction in directions:
-        #print(f"walker:\ny: {t_walker.x}\nx: {t_walker.y}\nstanding on: {t_walker.num}\n")
-      #  found = t_walker.look(direction)
-       # print(f"look {direction}:", found)
-        #if found == t_walker.searching_for:
-         #   print(f"\nwalker standing on: {t_walker.searching_for}\n{found} is {direction}\n")
 
 
 #-------------------------------------------
@@ -63,19 +66,21 @@ class Walker:
 
     def check_if_on_board(self, y, x, height, width):
         if y < 0 or y > height:
-            raise Exception(f"\033[31mWalker is off the board: \033[37;0m\n\033[33;2my:     {y}\nheight: {height}\033[37;0m")
+            return False
+            #raise Exception(f"\033[31mWalker is off the board: \033[37;0m\n\033[33;2my:     {y}\nheight: {height}\033[37;0m")
         if x < 0 or x > width:
-            raise Exception(f"\033[31mWalker is off the board: \033[37;0m\n\033[33;2mx:    {x}\nwidth: {width}\033[37;0m")
+            return False
+            #raise Exception(f"\033[31mWalker is off the board: \033[37;0m\n\033[33;2mx:    {x}\nwidth: {width}\033[37;0m")
+        return True
 
     def look(self, direction): # direction is a tuple
         look_y = self.directions[direction][0]
         look_x = self.directions[direction][1]
-        try:
-            self.check_if_on_board(look_y, look_x, self.board_height, self.board_width)
-        except Exception as message:
-            print(message)
-
+        
         return self.board[self.y + look_y][self.x + look_x]
+        
+    
+
 
     
 
