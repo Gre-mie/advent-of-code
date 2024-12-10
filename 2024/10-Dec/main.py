@@ -9,6 +9,39 @@ def get_file(path):
         return list(map(lambda row: list(map(lambda num: int(num) , row)) , file.read().split('\n')))
 
 
+#-------------------------------------------
+
+def run(walker, directions):
+    print(f"{walker.board}\n")
+
+    print(f"height: {walker.board_height}  width: {walker.board_width}")
+
+    reached_end = False
+# continues looking for a path untill the walker is standing on the last square, and path is empty
+    while reached_end == False:
+        if walker.path == [] and walker.y >= walker.board_height and walker.x >= walker.board_width:
+            reached_end = True
+        print(f"walker:\ny: {walker.y}  x: {walker.x}\npath = {walker.path}\n")
+
+    # testing v
+        if walker.x == walker.board_height:
+            walker.y += 1
+            walker.x = 0
+        walker.x += 1
+    # testing ^
+
+
+
+
+    # for direction in directions:
+        #print(f"walker:\ny: {t_walker.x}\nx: {t_walker.y}\nstanding on: {t_walker.num}\n")
+      #  found = t_walker.look(direction)
+       # print(f"look {direction}:", found)
+        #if found == t_walker.searching_for:
+         #   print(f"\nwalker standing on: {t_walker.searching_for}\n{found} is {direction}\n")
+
+
+#-------------------------------------------
 
 #----- ----- ----- ----- ----- ----- -----
 
@@ -19,14 +52,14 @@ class Walker:
         self.board_height = len(self.board)
         self.board_width = len(self.board[0])
 
-
         self.y = 0
         self.x = 0
 
         self.num = self.board[self.y][self.x] # number walker is standing on
         self.searching_for = 0
 
-        #current_path = []  # to store the past postions ?
+        self.path = [] # path traveled so far
+
 
     def check_if_on_board(self, y, x, height, width):
         if y < 0 or y > height:
@@ -37,9 +70,6 @@ class Walker:
     def look(self, direction): # direction is a tuple
         look_y = self.directions[direction][0]
         look_x = self.directions[direction][1]
-
-        #print(f"look y: {look_y}\nlook x: {look_x}\nboard height: {self.board_height}\nboard width: {self.board_width}\n")
-
         try:
             self.check_if_on_board(look_y, look_x, self.board_height, self.board_width)
         except Exception as message:
@@ -66,20 +96,7 @@ def main():
     p_walker = Walker("./puzzle-input.txt", directions)
     t_walker = Walker("./test-input.txt", directions)
 
-
-#-------------------------------------------
-    print(f"{t_walker.board}\n")
-
-    for direction in directions:
-        #print(f"walker:\ny: {t_walker.x}\nx: {t_walker.y}\nstanding on: {t_walker.num}\n")
-        found = t_walker.look(direction)
-        print(f"look {direction}:", found)
-        if found == t_walker.searching_for:
-            print(f"\nwalker standing on: {t_walker.searching_for}\n{found} is {direction}\n")
-    
-    
-    print()
-#-------------------------------------------
+    run(t_walker, directions)
 
     advent_intro(2024, 10)
 
