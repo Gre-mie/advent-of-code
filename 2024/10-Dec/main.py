@@ -6,7 +6,7 @@ def answer(answer):
 
 def get_file(path):
     with open(path, 'r') as file:
-        return file.read().split('\n')
+        return list(map(lambda row: list(map(lambda num: int(num) , row)) , file.read().split('\n')))
 
 
 
@@ -24,6 +24,7 @@ class Walker:
         self.x = 0
 
         self.num = self.board[self.y][self.x] # number walker is standing on
+        self.searching_for = 0
 
         #current_path = []  # to store the past postions ?
 
@@ -71,7 +72,10 @@ def main():
 
     for direction in directions:
         #print(f"walker:\ny: {t_walker.x}\nx: {t_walker.y}\nstanding on: {t_walker.num}\n")
-        print(f"look {direction}:", t_walker.look(direction))
+        found = t_walker.look(direction)
+        print(f"look {direction}:", found)
+        if found == t_walker.searching_for:
+            print(f"\nwalker standing on: {t_walker.searching_for}\n{found} is {direction}\n")
     
     
     print()
