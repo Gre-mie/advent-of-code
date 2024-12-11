@@ -32,10 +32,12 @@ def change_elements(arr):
 
 def run(times_to_run, file):
     stones_arr = file.copy()
-    for i in range(times_to_run):
-        stones_arr = change_elements(stones_arr)
-    return stones_arr
-
+    if times_to_run <= 25:
+        for i in range(times_to_run):
+            stones_arr = change_elements(stones_arr)
+        return stones_arr
+    else:
+        raise Exception("\033[31m Do NOT run this code more then 25 iterations: \033[33;2mException in run(times_to_run, file)\033[37;0m")
 
 def main():
 
@@ -44,6 +46,8 @@ def main():
 
     advent_intro(2024, 11)
     answer(len(run(25, get_file("./puzzle-input.txt"))))
+
+    # !!!!! Do NOT run this code above 25 !!!!!
 
 
 if __name__ == "__main__":
