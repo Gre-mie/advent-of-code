@@ -15,23 +15,27 @@ def even_num_digits(num):
     return False
     
 def change_elements(arr):
-    new_arr = arr.copy()
-    for i in range(len(new_arr)):
-        if new_arr[i] == 0:
-            print(f"element {new_arr[i]} changed to 1")
-            new_arr[i] = 1
+    new_arr = []
+    for num in arr:
+        if num == 0:
+            print(f"change {num} to 1")
+            new_arr.append(1)
+            print(f"new array: {new_arr}\n")
         else:
-            if not even_num_digits(new_arr[i]):
-                new_num = new_arr[i] * 2024
-                print(f"element {new_arr[i]} changed to: {new_arr[i]} x 2024: {new_num}")
-                new_arr[i] = new_num
+            if even_num_digits(num):
+                s_num = str(num)
+                half = int(len(s_num) / 2)
+                new_arr.append(int(s_num[:half]))
+                new_arr.append(int(s_num[half:]))
+
+                print(f"split: {num}")
+                print(f"new array: {new_arr}\n")
+            else:
+                new_num = num * 2024
+                print(f"element {num} changed to: {num} x 2024: {new_num}")
+                new_arr.append(new_num)
+                print(f"new array: {new_arr}\n")
     return new_arr
-
-def split_elements(arr):
-    new_arr = arr.copy()
-#---------------------------
-
-#---------------------------
 
 
 def run(times_to_run, file):
@@ -40,7 +44,6 @@ def run(times_to_run, file):
     for i in range(times_to_run):
         stones_arr = change_elements(stones_arr)
 #--------------------------------------------
-
         
 
 #-------------------------------------------
