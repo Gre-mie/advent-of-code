@@ -16,9 +16,10 @@ def main():
     puzzle_file = get_file("./puzzle-input.txt")
     test_file = get_file("./test-input.txt")
 
+    puzzle = Arcade(puzzle_file)
     test = Arcade(test_file)
 
-    print(test.file)
+    print(test.process_file())
 
     advent_intro(2024, 13)
 
